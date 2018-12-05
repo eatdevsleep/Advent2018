@@ -5,9 +5,33 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <unordered_set>
 using namespace std;
 
-int main()
+void day1part2()
+{
+	ifstream inFile("input.txt");
+	int total = 0;
+	int number;
+	unordered_set<int> answerFinder{ total };
+	while (true)
+	{
+		while (inFile >> number)
+		{
+			total += number;
+			const auto [_, isInserted] = answerFinder.insert(total); // wow! structured bindings
+			if (!isInserted)
+			{
+				cout << total << endl;
+				return;
+			}
+		}
+		inFile.clear();
+		inFile.seekg(0, ios::beg);
+	}
+}
+
+void day1part1()
 {
 	ifstream inFile("input.txt");
 	int total = 0;
@@ -16,7 +40,13 @@ int main()
 	{
 		total += number;
 	}
-	cout << total;
+	cout << total << endl;
+}
+
+int main()
+{
+	//day1part1();
+	day1part2();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
