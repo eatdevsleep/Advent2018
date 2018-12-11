@@ -13,6 +13,7 @@
 #include <sstream>
 #include <chrono>
 #include <ctime>
+#include <deque>
 
 class Part1and2
 {
@@ -57,17 +58,10 @@ public:
   }
   static std::string ReactPolymers(std::string &instruction, std::vector<char> &reactionMatcher)
   {
-    auto start = std::chrono::system_clock::now();
-
-
-
     std::list<char> charList;
     std::copy(instruction.begin(), instruction.end(), back_inserter(charList)); 
-    auto end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    std::cout << "elapsed time copy to reacgtion data structure: " << elapsed_seconds.count() << "s\n";
 
-    start = std::chrono::system_clock::now();
+    auto start = std::chrono::system_clock::now();
     bool reactions = false;
     do
     {
@@ -98,17 +92,13 @@ public:
         }
       }
     } while (reactions);
-    end = std::chrono::system_clock::now();
-    elapsed_seconds = end - start;
-    std::cout << "elapsed time calc reaction: " << elapsed_seconds.count() << "s\n";
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
 
-    start = std::chrono::system_clock::now();
     std::ostringstream oss;
     std::copy(charList.begin(), charList.end(), std::ostream_iterator<char>(oss));
     auto reacted = std::move(oss.str());
-    end = std::chrono::system_clock::now();
-    elapsed_seconds = end - start;
-    std::cout << "elapsed time copy reacted back to string: " << elapsed_seconds.count() << "s\n";
     return reacted;
   }
 };
