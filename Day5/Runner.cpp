@@ -3,13 +3,12 @@
 
 #include "pch.h"
 #include <iostream>
-#include "Part1.h"
-#include "Part2.h"
+#include "Part1and2.h"
 
 int main()
 {
-  Part1::Run();
-  Part2::Run();
+  Part1and2::Run();
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

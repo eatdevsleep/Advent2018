@@ -18,10 +18,7 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Part2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Part1.h">
+    <ClInclude Include="Part1and2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
