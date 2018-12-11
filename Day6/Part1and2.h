@@ -97,6 +97,41 @@ public:
 
     auto& maxElement = *std::max_element (idCounts.begin(), idCounts.end(), [](auto& a, auto& b) {return a.second < b.second; });
     std::cout << "largest area: " << maxElement.second << " by id: " << maxElement.first << std::endl;
+
+    const int coordCount = coords.size();
+    const int targetMaxTotalDistance = 10000-1;
+
+    int totalCount = 0;
+
+    // total distance is:
+    // count of all items in grid boundary with total under max
+    totalCount += std::count_if(totalDistances.cbegin(), totalDistances.cend(), [=](auto dist) {return dist <= targetMaxTotalDistance;});
+    // + for each edge value (9999 - each edge total dist) / #coords
+    // minx+1 to maxX-1, minY and maxY
+    for (int x = minX + 1; x < maxX; ++x) {
+      if(int edgeDist = indexer(totalDistances, x, minY); edgeDist < targetMaxTotalDistance)
+        totalCount += (targetMaxTotalDistance - edgeDist) / coordCount;
+      if (int edgeDist = indexer(totalDistances, x, maxY); edgeDist < targetMaxTotalDistance)
+        totalCount += (targetMaxTotalDistance - edgeDist) / coordCount;
+    }
+    // minx and maxX, minY+1 to maxY-1
+    for (int y = minY + 1; y < maxY; ++y) {
+      if (int edgeDist = indexer(totalDistances, minX, y); edgeDist < targetMaxTotalDistance)
+        totalCount += (targetMaxTotalDistance - edgeDist) / coordCount;
+      if (int edgeDist = indexer(totalDistances, maxX, y); edgeDist < targetMaxTotalDistance)
+        totalCount += (targetMaxTotalDistance - edgeDist) / coordCount;
+    }
+    // + for each corner value (edge total above)^2 / 2
+    if (int edgeDist = indexer(totalDistances, minX, minY); edgeDist < targetMaxTotalDistance)
+      totalCount += ((targetMaxTotalDistance - edgeDist) / coordCount) ^ 2 / 2; // topleft
+    if (int edgeDist = indexer(totalDistances, maxX, minY); edgeDist < targetMaxTotalDistance)
+      totalCount += ((targetMaxTotalDistance - edgeDist) / coordCount) ^ 2 / 2; // topright
+    if (int edgeDist = indexer(totalDistances, minX, maxY); edgeDist < targetMaxTotalDistance)
+      totalCount += ((targetMaxTotalDistance - edgeDist) / coordCount) ^ 2 / 2; // bottomleft
+    if (int edgeDist = indexer(totalDistances, maxX, maxY); edgeDist < targetMaxTotalDistance)
+      totalCount += ((targetMaxTotalDistance - edgeDist) / coordCount) ^ 2 / 2; // bottomright
+
+    std::cout << "total Count: " << totalCount << " in zone with distances under: " << targetMaxTotalDistance + 1 << std::endl;
   }
 };
 
